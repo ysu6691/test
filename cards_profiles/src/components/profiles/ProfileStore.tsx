@@ -1,11 +1,12 @@
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 interface Iprops {
   imgSrc: string;
   storeName: string;
 }
 
-const ProfileStoreLight = function (props: Iprops) {
+const ProfileStore = function (props: Iprops) {
   return (
     <Container>
       <ImgBox>
@@ -16,14 +17,14 @@ const ProfileStoreLight = function (props: Iprops) {
   );
 };
 
-export default ProfileStoreLight;
+export default ProfileStore;
 
 const Container = styled.div`
   width: 240px;
   height: 88px;
   border-radius: 32px;
   background-color: #f1a604;
-  // mango yellow 700
+  // light: mango yellow 700 / dark: dark error
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -56,5 +57,5 @@ const StoreImg = styled.img`
 const StoreName = styled.span`
   color: white;
   // main content bold
-  // color: basalt gray 50;
+  // light: basalt gray 50 / dark: basalt gray 800
 `;

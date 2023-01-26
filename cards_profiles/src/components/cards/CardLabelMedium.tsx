@@ -1,23 +1,25 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import React from "react";
+import { useState } from "react";
+import styled from "styled-components";
+
+import { TbPlayerPlay } from "react-icons/tb";
 
 interface Iprops {
   imgSrc: string;
   title: string;
 }
 
-const CardLabelMediumLight = function (props: Iprops) {
+const CardLabelMedium = function (props: Iprops) {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const playIconSrc = require('../../imgs/card_play_icon.png');
-
   return (
-    <Container
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <Container onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <CardImgBox>
-        {isHovered && <PlayIcon src={playIconSrc} alt="" />}
+        {isHovered && (
+          <TbPlayerPlayBox>
+            <TbPlayerPlay size={40} />
+          </TbPlayerPlayBox>
+        )}
         <CardImg isHovered={isHovered} src={props.imgSrc} alt="" />
       </CardImgBox>
       <CardTitle>{props.title}</CardTitle>
@@ -25,7 +27,7 @@ const CardLabelMediumLight = function (props: Iprops) {
   );
 };
 
-export default CardLabelMediumLight;
+export default CardLabelMedium;
 
 const Container = styled.div`
   width: 240px;
@@ -44,21 +46,26 @@ const CardImg = styled.img<{ isHovered: boolean }>`
   border-radius: 32px;
   object-fit: cover;
   box-shadow: 2px 2px 8px rgba(67, 67, 67, 0.2);
-  filter: ${(props) => (props.isHovered ? 'brightness(70%)' : '')};
+  transition: all 0.2s;
+  filter: ${(props) => (props.isHovered ? "brightness(70%)" : "")};
 `;
 
-const PlayIcon = styled.img`
+const TbPlayerPlayBox = styled.div`
   position: absolute;
-  width: 28px;
+  width: 36px;
   height: 36px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; // light & dark: basalt gray 50
 `;
 
 const CardTitle = styled.span`
   font-weight: bold;
   // main content bold
-  // basalt gray 900
+  // light: basalt gray 50 / dark: basalt gray 900
 `;

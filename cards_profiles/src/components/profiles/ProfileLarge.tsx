@@ -1,4 +1,7 @@
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+
+import { TbGenderMale, TbGenderFemale } from "react-icons/tb";
 
 interface Iprops {
   imgSrc: string;
@@ -7,9 +10,7 @@ interface Iprops {
   species: string;
 }
 
-const ProfileLargeLight = function (props: Iprops) {
-  const genderImgSrc = require(`../../imgs/${props.gender}.svg`);
-
+const ProfileLarge = function (props: Iprops) {
   return (
     <Container>
       <ProfileImg src={props.imgSrc} alt="" />
@@ -18,16 +19,18 @@ const ProfileLargeLight = function (props: Iprops) {
         <Footer>
           <FooterLeft>
             <Species>{props.species}</Species>
-            <Gender src={genderImgSrc} alt="" />
+            <GenderBox gender={props.gender}>
+              {props.gender == "male" ? <TbGenderMale size={20} /> : <TbGenderFemale size={20} />}
+            </GenderBox>
           </FooterLeft>
-          <DetailLink>더보기 {'>'}</DetailLink>
+          <DetailLink>더보기 {">"}</DetailLink>
         </Footer>
       </Info>
     </Container>
   );
 };
 
-export default ProfileLargeLight;
+export default ProfileLarge;
 
 const Container = styled.div`
   width: 240px;
@@ -36,6 +39,7 @@ const Container = styled.div`
   overflow: hidden;
   box-shadow: 2px 2px 8px rgba(67, 67, 67, 0.2);
   transition: 0.3s;
+  background: ${(props) => props.theme.colors.defaultBgColor};
   &:hover {
     cursor: pointer;
     transform: scale(1.02);
@@ -51,33 +55,35 @@ const ProfileImg = styled.img`
 const Info = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 12px 24px 0;
+  padding: 8px 24px 0;
   gap: 8px;
 `;
 
 const Title = styled.span`
   font-weight: bold;
-  // main content bold
-  // basalt gray 900
+  font: ${(props) => props.theme.fonts.mainContentBold};
+  color: ${(props) => props.theme.colors.defaultColor};
 `;
 
 const Species = styled.span`
-  // sub content
-  // basalt gray 600
+  font: ${(props) => props.theme.fonts.subContent};
 `;
+// color: ${(props) => props.theme.colors.secondaryText};
 
-const Gender = styled.img`
+const GenderBox = styled.div<{ gender: string }>`
   width: 16px;
   height: 16px;
+  color: ${(props) =>
+    props.gender == "male" ? props.theme.colors.informative : props.theme.colors.danger};
 `;
 
 const DetailLink = styled.span`
   &:hover {
     cursor: pointer;
   }
-  // tiny content
-  // basalt gray 600
+  font: ${(props) => props.theme.fonts.tinyContent};
 `;
+// color: ${(props) => props.theme.colors.secondaryText};
 
 const Footer = styled.div`
   display: flex;

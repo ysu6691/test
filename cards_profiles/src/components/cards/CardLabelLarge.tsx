@@ -1,5 +1,8 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import React from "react";
+import { useState } from "react";
+import styled, { keyframes } from "styled-components";
+
+import { TbPlayerPlay } from "react-icons/tb";
 
 interface Iprops {
   thumbnailSrc: string;
@@ -11,15 +14,14 @@ interface Iprops {
 const CardLabelLarge = function (props: Iprops) {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const playIconSrc = require('../../imgs/card_play_icon.png');
-
   return (
-    <Container
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <Container onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <CardImgBox>
-        {isHovered && <PlayIcon src={playIconSrc} alt="" />}
+        {isHovered && (
+          <TbPlayerPlayBox>
+            <TbPlayerPlay size={60} />
+          </TbPlayerPlayBox>
+        )}
         <Thumbnail isHovered={isHovered} src={props.thumbnailSrc} alt="" />
         <SpeciesFirstImg
           src={require(`../../imgs/${props.animalList[0].species}.jfif`)}
@@ -33,14 +35,12 @@ const CardLabelLarge = function (props: Iprops) {
             isHovered={isHovered}
           />
         ) : (
-          ''
+          ""
         )}
         {props.animalList.length > 2 ? (
-          <SpeciesRemainCnt isHovered={isHovered}>
-            +{props.animalList.length - 2}
-          </SpeciesRemainCnt>
+          <SpeciesRemainCnt isHovered={isHovered}>+{props.animalList.length - 2}</SpeciesRemainCnt>
         ) : (
-          ''
+          ""
         )}
       </CardImgBox>
       <CardTitle>{props.title}</CardTitle>
@@ -67,17 +67,36 @@ const Thumbnail = styled.img<{ isHovered: boolean }>`
   border-radius: 32px;
   object-fit: cover;
   box-shadow: 2px 2px 8px rgba(67, 67, 67, 0.2);
-  filter: ${(props) => (props.isHovered ? 'brightness(70%)' : '')};
+  transition: all 0.2s;
+  filter: ${(props) => (props.isHovered ? "brightness(70%)" : "")};
 `;
 
-const PlayIcon = styled.img`
+const TbPlayerPlayBox = styled.div`
   position: absolute;
-  width: 28px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; // light & dark: basalt gray 50
+`;
+
+const jump = keyframes`
+  0% {
+    top: 112px;
+  }
+
+  50% {
+    top: 104px;
+  }
+
+  100% {
+    top: 112px;
+  }
 `;
 
 const SpeciesFirstImg = styled.img<{ isHovered: boolean }>`
@@ -88,10 +107,12 @@ const SpeciesFirstImg = styled.img<{ isHovered: boolean }>`
   object-fit: cover;
   top: 112px;
   left: 12px;
-  // basalt gray 50
+  // light & dark: basalt gray 50
   border: 3px solid white;
   z-index: 3;
-  filter: ${(props) => (props.isHovered ? 'brightness(70%)' : '')};
+  transition: all 0.2s;
+  filter: ${(props) => (props.isHovered ? "brightness(70%)" : "")};
+  animation: ${jump} 1s ease-out infinite;
 `;
 
 const SpeciesSecondImg = styled.img<{ isHovered: boolean }>`
@@ -102,10 +123,11 @@ const SpeciesSecondImg = styled.img<{ isHovered: boolean }>`
   object-fit: cover;
   top: 112px;
   left: 44px;
-  // basalt gray 50
+  // light & dark: basalt gray 50
   border: 3px solid white;
   z-index: 2;
-  filter: ${(props) => (props.isHovered ? 'brightness(70%)' : '')};
+  transition: all 0.2s;
+  filter: ${(props) => (props.isHovered ? "brightness(70%)" : "")};
 `;
 
 const SpeciesRemainCnt = styled.div<{ isHovered: boolean }>`
@@ -117,15 +139,16 @@ const SpeciesRemainCnt = styled.div<{ isHovered: boolean }>`
   left: 76px;
   padding-top: 14px;
   padding-left: 20px;
-  border: 3px solid white; // basalt gray 50
+  border: 3px solid white; // light & dark: basalt gray 50
   z-index: 1;
-  color: white; // basalt gray 50
+  color: white; // light & dark: basalt gray 50
   // tiny content bold
   font-weight: bold;
   font-size: 14px;
-  background-color: #a2a0b1; // basalt gray 400
+  background-color: #a2a0b1; // light & dark: basalt gray 400
   box-sizing: border-box;
-  filter: ${(props) => (props.isHovered ? 'brightness(70%)' : '')};
+  transition: all 0.2s;
+  filter: ${(props) => (props.isHovered ? "brightness(70%)" : "")};
 `;
 
 const CardTitle = styled.span`

@@ -1,10 +1,11 @@
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 interface Iprops {
   imgSrc: string;
 }
 
-const ProfileMediumLight = function (props: Iprops) {
+const ProfileMedium = function (props: Iprops) {
   return (
     <Container>
       <ProfileImg src={props.imgSrc} alt="" />
@@ -12,7 +13,7 @@ const ProfileMediumLight = function (props: Iprops) {
   );
 };
 
-export default ProfileMediumLight;
+export default ProfileMedium;
 
 const Container = styled.div`
   width: 96px;

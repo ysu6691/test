@@ -1,20 +1,14 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 interface Iprops {
   imgSrc: string;
   title: string;
 }
 
-const CardVoteLight = function (props: Iprops) {
-  // prop으로 받을지는 나중에 설정
-  const [isSelected, setIsSelected] = useState(false);
-
+const CardOverlayLabel = function (props: Iprops) {
   return (
-    <Container
-      isSelected={isSelected}
-      onClick={() => setIsSelected(!isSelected)}
-    >
+    <Container>
       <CardImg src={props.imgSrc} alt="" />
       <CardTitle>{props.title}</CardTitle>
       <CardInnerShadow />
@@ -22,9 +16,9 @@ const CardVoteLight = function (props: Iprops) {
   );
 };
 
-export default CardVoteLight;
+export default CardOverlayLabel;
 
-const Container = styled.div<{ isSelected: boolean }>`
+const Container = styled.div`
   width: 240px;
   height: 160px;
   border-radius: 32px;
@@ -35,13 +29,6 @@ const Container = styled.div<{ isSelected: boolean }>`
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
-  // mango yellow 600
-  border: ${(props) => (props.isSelected ? '8px solid yellow' : '')};
-  transition: 0.3s;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.03);
-  }
 `;
 
 const CardImg = styled.img`
@@ -56,7 +43,7 @@ const CardTitle = styled.span`
   left: 10%;
   color: white;
   z-index: 99;
-  // basalt gray 50
+  // light & dark: basalt gray 50
   // main content bold
 `;
 
@@ -65,9 +52,5 @@ const CardInnerShadow = styled.div`
   width: 100%;
   height: 64px;
   bottom: 0px;
-  background: linear-gradient(
-    to top,
-    rgba(58, 57, 72, 0.72),
-    rgba(58, 57, 72, 0)
-  );
+  background: linear-gradient(to top, rgba(58, 57, 72, 0.72), rgba(58, 57, 72, 0));
 `;
