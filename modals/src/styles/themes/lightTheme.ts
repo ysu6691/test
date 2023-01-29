@@ -2,19 +2,19 @@ import fonts from "./fonts";
 import Itheme from "./theme";
 import brandColors from "./colors";
 
-export const darkTheme: Itheme = {
-  isDark: true,
+export const lightTheme: Itheme = {
+  isDark: false,
   colors: {
     brandColors: brandColors,
-    green: "#4CC068",
-    blue: "#68C7EF",
-    yellow: "#F2D856",
-    red: "#FB4656",
-    primaryText: "#FCFCFC",
-    seconderyText: "#E6E5E9",
-    primaryBg: "#3A3948",
-    seconderyBg: "#4E4C5F",
-    disable: "#615F75",
+    green: "#14A647",
+    blue: "#1790C3",
+    yellow: "#F2C619",
+    red: "#F33041",
+    primaryText: "#3A3948",
+    seconderyText: "#75728C",
+    primaryBg: "#FCFCFC",
+    seconderyBg: "#FCFCFC",
+    disable: "#CFCED7",
   },
   fonts: { ...fonts },
   shadow: "filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2));",
@@ -25,10 +25,10 @@ export const darkTheme: Itheme = {
     filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2));
     transition: all 0.2s ease-in-out;
     &:hover {
-      filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2)) brightness(1.1);
+      filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2)) brightness(0.95);
     }
     &:active {
-      filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2)) brightness(1.2);
+      filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2)) brightness(0.9);
       scale: 0.95;
   }`,
     card: `
@@ -39,7 +39,7 @@ export const darkTheme: Itheme = {
       scale: 1.02;
     }
     &:active {
-      filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2)) brightness(1.1);
+      filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2)) brightness(0.9);
       scale: 1;
     }`,
   },
