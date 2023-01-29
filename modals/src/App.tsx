@@ -9,38 +9,40 @@ import useTheme from "./styles/themes/useTheme";
 import Itheme from "./styles/themes/theme";
 import ThemeBtn from "./components/common/button/ThemeBtn";
 import LikeBtn from "./components/common/button/LikeBtn";
-import CardLabelMedium from "./components/cards/CardLabelMedium";
-import CardVote from "./components/cards/CardVote";
-import CardOverlayLabel from "./components/cards/CardOverlayLabel";
-import CardNotLabel from "./components/cards/CardNotLabel";
-import CardLabelLarge from "./components/cards/CardLabelLarge";
+import VoteModal from "./components/modal/VoteModal";
+import VoteResultModal from "./components/modal/VoteResultModal";
 
 function App() {
   const [themeMode, toggleTheme] = useTheme();
   const theme: Itheme = themeMode === "light" ? lightTheme : darkTheme;
 
-  const sampleAnimal = {
-    animalName: "우파루파파",
-    // 이미지는 DB에서 오는 정보에 따라서 수정 필요할 듯?
-    imgSrc: require("./imgs/sampleAnimal.jfif"),
-    gender: "female",
-    species: "axolotl",
-  };
-
-  const sampleBroadcastAnimalList = [
+  const feeds = [
     {
-      species: "axolotl",
+      id: 1,
+      feedName: "귀뚜라미",
+      imgSrc: require("../src/imgs/귀뚜라미.png"),
     },
     {
-      species: "scincella",
+      id: 2,
+      feedName: "쥐",
+      imgSrc: require("../src/imgs/귀뚜라미.png"),
     },
     {
-      species: "leopard gecko",
+      id: 3,
+      feedName: "곤충젤리",
+      imgSrc: require("../src/imgs/귀뚜라미.png"),
     },
     {
-      species: "iguanas",
+      id: 4,
+      feedName: "지렁이",
+      imgSrc: require("../src/imgs/귀뚜라미.png"),
     },
   ];
+
+  const feed = {
+    feedName: "귀뚜라미",
+    imgSrc: require("../src/imgs/귀뚜라미.png"),
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -50,15 +52,9 @@ function App() {
         <ThemeBtn themeMode={themeMode} toggleTheme={toggleTheme}></ThemeBtn>
         <LikeBtn></LikeBtn>
         <div>
-          <CardLabelMedium imgSrc={sampleAnimal.imgSrc} title="우파루파 먹방" />
-          <CardVote imgSrc={sampleAnimal.imgSrc} title="먹이1" />
-          <CardOverlayLabel imgSrc={sampleAnimal.imgSrc} title="Label" />
-          <CardNotLabel imgSrc={sampleAnimal.imgSrc} />
-          <CardLabelLarge
-            thumbnailSrc={sampleAnimal.imgSrc}
-            animalList={sampleBroadcastAnimalList}
-            title="우파루파 먹방 보러 올 사람"
-          />
+          <VoteModal feeds={feeds} />
+          <VoteResultModal feedName={feed.feedName} imgSrc={feed.imgSrc} />
+          <VoteModal feeds={feeds} />
         </div>
       </Main>
     </ThemeProvider>
@@ -71,7 +67,7 @@ const Main = styled.div`
   color: ${(props) => props.theme.colors.primaryText};
   background-color: ${(props) => props.theme.colors.primaryBg};
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   transition: all 1s;
 `;
 
