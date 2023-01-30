@@ -1,6 +1,10 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import CardNotLabel from "../cards/CardNotLabel";
+import styled from "styled-components";
+
+import { CardNotLabel } from "../common/card/index";
+
 
 interface Iprops {
   feedName: string;
@@ -58,7 +62,7 @@ const SytledIframe = styled.iframe`
   top: -50px;
   left: 0;
   pointer-events: none;
-  z-index: 99;
+  z-index: 3;
 `;
 
 const StyledContainer = styled.div`
@@ -69,8 +73,8 @@ const StyledContainer = styled.div`
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
-  z-index: 98;
   color: ${(props) => props.theme.colors.brandColors.basaltGray["50"]};
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;

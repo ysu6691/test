@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import CardVote from "../cards/CardVote";
-
 import { MdClose } from "react-icons/md";
 
+import { CardVote } from "../common/card/index";
+
 interface Iprops {
-  feeds: { id: number; feedName: string; imgSrc: string }[];
+  feedList: { id: number; feedName: string; imgSrc: string }[];
 }
 
 const VoteModal = function (props: Iprops) {
-  const Cards = props.feeds.map((feed) => {
+  const Cards = props.feedList.map((feed) => {
     return <CardVote key={feed.id} title={feed.feedName} imgSrc={feed.imgSrc} />;
   });
 
@@ -28,6 +28,11 @@ const VoteModal = function (props: Iprops) {
 export default VoteModal;
 
 const StyledModal = styled.div`
+  z-index: 2;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 646px;
   height: 620px;
   display: flex;
