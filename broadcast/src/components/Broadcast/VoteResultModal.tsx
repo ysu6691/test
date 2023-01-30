@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import CardNotLabel from "../cards/CardNotLabel";
+
+import { CardNotLabel } from "../common/card/index";
 
 interface Iprops {
   feedName: string;
@@ -8,18 +9,9 @@ interface Iprops {
 }
 
 const VoteResultModal = function (props: Iprops) {
-  // 애니메이션 자동 재생 막기
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsPlaying(false);
-    }, 2000);
-  }, []);
-
   return (
     <StyledModal>
-      {isPlaying && <SytledIframe src="https://embed.lottiefiles.com/animation/32585" />}
+      <SytledIframe src="https://embed.lottiefiles.com/animation/32585" />
       <StyledContainer>
         <StyledHeader2>먹이 투표 결과</StyledHeader2>
         <CardNotLabel imgSrc={props.imgSrc} />
@@ -41,7 +33,7 @@ const SytledIframe = styled.iframe`
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 99;
+  z-index: 3;
 `;
 
 const StyledContainer = styled.div`
@@ -52,7 +44,7 @@ const StyledContainer = styled.div`
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
-  z-index: 98;
+  z-index: 2;
   color: ${(props) => props.theme.colors.primaryText};
   display: flex;
   flex-direction: column;
