@@ -9,11 +9,13 @@ import useTheme from "./styles/themes/useTheme";
 import Itheme from "./styles/themes/theme";
 import ThemeBtn from "./components/common/button/ThemeBtn";
 import LikeBtn from "./components/common/button/LikeBtn";
-import CardLabelMedium from "./components/cards/CardLabelMedium";
-import CardVote from "./components/cards/CardVote";
-import CardOverlayLabel from "./components/cards/CardOverlayLabel";
-import CardNotLabel from "./components/cards/CardNotLabel";
-import CardLabelLarge from "./components/cards/CardLabelLarge";
+import CardLabelMedium from "./components/card/CardLabelMedium/CardLabelMedium";
+import CardVote from "./components/card/CardVote/CardVote";
+import CardOverlayLabel from "./components/card/CardOverlayLabel/CardOverlayLabel";
+import CardNotLabel from "./components/card/CardNotLabel/CardNotLabel";
+import CardLabelLarge from "./components/card/CardLabelLarge/CardLabelLarge";
+import ProfileLarge from "./components/profiles/ProfileLarge";
+import ProfileStore from "./components/profiles/ProfileStore";
 
 function App() {
   const [themeMode, toggleTheme] = useTheme();
@@ -27,20 +29,7 @@ function App() {
     species: "axolotl",
   };
 
-  const sampleBroadcastAnimalList = [
-    {
-      species: "axolotl",
-    },
-    {
-      species: "scincella",
-    },
-    {
-      species: "leopard gecko",
-    },
-    {
-      species: "iguanas",
-    },
-  ];
+  const classificationImgs = [require("../src/imgs/axolotl.jfif")];
 
   return (
     <ThemeProvider theme={theme}>
@@ -49,17 +38,22 @@ function App() {
         <Box>TEXT</Box>
         <ThemeBtn themeMode={themeMode} toggleTheme={toggleTheme}></ThemeBtn>
         <LikeBtn></LikeBtn>
-        <div>
-          <CardLabelMedium imgSrc={sampleAnimal.imgSrc} title="우파루파 먹방" />
-          <CardVote imgSrc={sampleAnimal.imgSrc} title="먹이1" />
-          <CardOverlayLabel imgSrc={sampleAnimal.imgSrc} title="Label" />
-          <CardNotLabel imgSrc={sampleAnimal.imgSrc} />
-          <CardLabelLarge
-            thumbnailSrc={sampleAnimal.imgSrc}
-            animalList={sampleBroadcastAnimalList}
-            title="우파루파 먹방 보러 올 사람"
-          />
-        </div>
+        <CardLabelMedium imgSrc={sampleAnimal.imgSrc} title="우파루파 먹asdfafsafsafasfasdf방" />
+        <CardVote imgSrc={sampleAnimal.imgSrc} title="먹이1asdfasdfasasfsadfsaf" />
+        <CardOverlayLabel imgSrc={sampleAnimal.imgSrc} title="Labelasdfasdfsafdasfss" />
+        <CardNotLabel imgSrc={sampleAnimal.imgSrc} />
+        <CardLabelLarge
+          title="우파루파 먹방 보러 올 사람asdfsadfsa"
+          thumbnailSrc={sampleAnimal.imgSrc}
+          classficationImgList={classificationImgs}
+        />
+        <ProfileLarge
+          animalName="우파asdadfsasdfsadfafsda"
+          gender="male"
+          classification="axolotadssfl"
+          imgSrc={require("../src/imgs/axolotl.jfif")}
+        />
+        <ProfileStore storeName="마이리틀쥬라기 파충류 스토어" imgSrc={classificationImgs[0]} />
       </Main>
     </ThemeProvider>
   );

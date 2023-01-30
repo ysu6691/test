@@ -2,43 +2,46 @@ import React from "react";
 import styled from "styled-components";
 
 interface Iprops {
-  imgSrc: string;
   storeName: string;
+  imgSrc: string;
 }
 
 const ProfileStore = function (props: Iprops) {
   return (
-    <Container>
-      <ImgBox>
-        <StoreImg src={props.imgSrc} alt="" />
-      </ImgBox>
-      <StoreName>{props.storeName}</StoreName>
-    </Container>
+    <StyledContainer>
+      <StyledImgBox>
+        <StyledStoreImg src={props.imgSrc} alt="" />
+      </StyledImgBox>
+      <StyledStoreName>{props.storeName}</StyledStoreName>
+    </StyledContainer>
   );
 };
 
 export default ProfileStore;
 
-const Container = styled.div`
+const StyledContainer = styled.div`
   width: 240px;
-  height: 88px;
+  min-height: 88px;
   border-radius: 32px;
-  background-color: #f1a604;
-  // light: mango yellow 700 / dark: dark error
+  background-color: ${(props) => props.theme.colors.yellow};
   display: flex;
   align-items: center;
   padding: 0 20px;
   gap: 12px;
   box-sizing: border-box;
   box-shadow: 2px 2px 8px rgba(67, 67, 67, 0.2);
+  cursor: pointer;
   transition: 0.3s;
   &:hover {
-    cursor: pointer;
-    transform: scale(1.03);
+    transform: scale(1.02);
+  }
+  &:active {
+    transform: scale(1.02);
+    filter: brightness(0.9);
   }
 `;
 
-const ImgBox = styled.div`
+const StyledImgBox = styled.div`
   width: 48px;
   height: 48px;
   border-radius: 70%;
@@ -48,14 +51,18 @@ const ImgBox = styled.div`
   align-items: center;
 `;
 
-const StoreImg = styled.img`
+const StyledStoreImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
 
-const StoreName = styled.span`
-  color: white;
-  // main content bold
-  // light: basalt gray 50 / dark: basalt gray 800
+const StyledStoreName = styled.span`
+  font: ${(props) => props.theme.fonts.mainContentBold};
+  color: ${(props) => props.theme.colors.brandColors.basaltGray["800"]};
+  width: 70%;
+  padding: 16px 0;
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
 `;

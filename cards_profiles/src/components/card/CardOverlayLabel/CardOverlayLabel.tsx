@@ -2,23 +2,23 @@ import React from "react";
 import styled from "styled-components";
 
 interface Iprops {
-  imgSrc: string;
   title: string;
+  imgSrc: string;
 }
 
 const CardOverlayLabel = function (props: Iprops) {
   return (
-    <Container>
-      <CardImg src={props.imgSrc} alt="" />
-      <CardTitle>{props.title}</CardTitle>
-      <CardInnerShadow />
-    </Container>
+    <StyledContainer>
+      <StyledCardImg src={props.imgSrc} alt="" />
+      <StyledCardTitle>{props.title}</StyledCardTitle>
+      <StyledCardInnerShadow />
+    </StyledContainer>
   );
 };
 
 export default CardOverlayLabel;
 
-const Container = styled.div`
+const StyledContainer = styled.div`
   width: 240px;
   height: 160px;
   display: flex;
@@ -31,23 +31,27 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-const CardImg = styled.img`
+const StyledCardImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
 
-const CardTitle = styled.span`
+const StyledCardTitle = styled.span`
   position: absolute;
   top: 75%;
   left: 10%;
   color: white;
   z-index: 99;
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font: ${(props) => props.theme.fonts.mainContentBold};
   color: ${(props) => props.theme.colors.brandColors.basaltGray["50"]};
 `;
 
-const CardInnerShadow = styled.div`
+const StyledCardInnerShadow = styled.div`
   position: absolute;
   width: 100%;
   height: 64px;

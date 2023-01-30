@@ -48,7 +48,6 @@ const StyledMdClose = styled.div`
 
 const StyledHeader = styled.span`
   font: ${(props) => props.theme.fonts.header2};
-  font-weight: 800;
 `;
 
 const StyledContainer = styled.div`

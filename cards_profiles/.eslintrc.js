@@ -24,7 +24,7 @@ module.exports = {
   rules: {
     indent: "off",
     semi: ["error", "always"],
-    // '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/no-var-requires': 0,
     // "prettier/prettier": [
     //   "error",
     //   {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React from "react";
+import styled, { keyframes } from "styled-components";
 import CardNotLabel from "../cards/CardNotLabel";
 
 interface Iprops {
@@ -8,18 +8,14 @@ interface Iprops {
 }
 
 const VoteResultModal = function (props: Iprops) {
-  // 애니메이션 자동 재생 막기
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsPlaying(false);
-    }, 2000);
-  }, []);
+  const closeModal = function () {
+    // 모달 닫는 로직
+  };
 
   return (
-    <StyledModal>
-      {isPlaying && <SytledIframe src="https://embed.lottiefiles.com/animation/32585" />}
+    <StyledModal onClick={closeModal}>
+      <StyledBlackDiv />
+      <SytledIframe src="https://embed.lottiefiles.com/animation/32585" />
       <StyledContainer>
         <StyledHeader2>먹이 투표 결과</StyledHeader2>
         <CardNotLabel imgSrc={props.imgSrc} />
@@ -34,11 +30,32 @@ export default VoteResultModal;
 
 const StyledModal = styled.div``;
 
-const SytledIframe = styled.iframe`
+const boxFade = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+`;
+
+const StyledBlackDiv = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.7;
+  z-index: 97;
+  animation: ${boxFade} 2s linear;
+`;
+
+const SytledIframe = styled.iframe`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: -50px;
   left: 0;
   pointer-events: none;
   z-index: 99;
@@ -53,7 +70,7 @@ const StyledContainer = styled.div`
   left: 50vw;
   transform: translate(-50%, -50%);
   z-index: 98;
-  color: ${(props) => props.theme.colors.primaryText};
+  color: ${(props) => props.theme.colors.brandColors.basaltGray["50"]};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,10 +81,8 @@ const StyledContainer = styled.div`
 
 const StyledHeader2 = styled.span`
   font: ${(props) => props.theme.fonts.header2};
-  font-weight: 800;
 `;
 
 const StyledHeader3 = styled.span`
   font: ${(props) => props.theme.fonts.header3};
-  font-weight: 800;
 `;
