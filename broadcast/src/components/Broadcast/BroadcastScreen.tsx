@@ -12,6 +12,7 @@ import {
 
 import { GreenBtn, ReactionBtn } from "../common/button";
 import VoteModal from "./VoteModal";
+import BroadcastVideo from "./BroadcastVideo";
 
 interface IProps {
   title: string;
@@ -50,6 +51,7 @@ const BroadcastScreen = function (props: IProps) {
       isBtnShown={isBtnShown}
       isVoteModalOpened={isVoteModalOpened}
     >
+      <BroadcastVideo />
       {props.isMaximized && (
         <StyledHeader isBtnShown={isBtnShown}>
           <StyledTopShadow />
@@ -132,7 +134,6 @@ const StyledContainer = styled.div<{
   aspect-ratio: 1654 / 1000;
   border-radius: 32px;
   filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2));
-  background: #999999;
   overflow: hidden;
   ${(props) =>
     props.isMaximized
