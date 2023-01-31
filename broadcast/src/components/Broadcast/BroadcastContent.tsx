@@ -1,42 +1,61 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaRegThumbsUp, FaThumbsUp, FaUserAlt, FaUsers } from "react-icons/fa";
+import { TbUsers, TbThumbUp } from "react-icons/tb";
 
 import { GreenBtn, LikeBtn } from "../common/button/index";
 import VoteModal from "./VoteModal";
 import VoteResultModal from "./VoteResultModal";
 
-const BroadcastContent = function () {
-  const [isOpened, setIsOpened] = useState<boolean>(false);
+interface IProps {
+  title: string;
+  detail: string;
+  feedList: { id: number; feedName: string; imgSrc: string }[];
+}
 
-  const tmpFeedList = [
-    { id: 1, feedName: "귀뚜라미", imgSrc: "https://picsum.photos/200/300" },
-    { id: 2, feedName: "지렁이", imgSrc: "https://picsum.photos/200/300" },
-    { id: 3, feedName: "쥐", imgSrc: "https://picsum.photos/200/300" },
-    { id: 4, feedName: "곤충젤리", imgSrc: "https://picsum.photos/200/300" },
-  ];
+const BroadcastContent = function (props: IProps) {
+  const [isVoteModalOpened, setIsVoteModalOpened] = useState<boolean>(false);
+  const [isResultModalOpened, setIsResultModalOpened] = useState<boolean>(false);
 
   return (
     <StyledContainer>
-      {isOpened && <VoteModal feedList={tmpFeedList} />}
-      {/* <VoteResultModal feedName="귀뚜라미" imgSrc="https://picsum.photos/200/300" /> */}
-      <StyledTitle>우파루파의 사료먹방 쑈쑈쑈~</StyledTitle>
+      {isVoteModalOpened && (
+        <VoteModal feedList={props.feedList} closeModal={() => setIsVoteModalOpened(false)} />
+      )}
+      {isResultModalOpened && (
+        <VoteResultModal
+          feedName="귀뚜라미"
+          imgSrc="https://picsum.photos/200/300"
+          closeModal={() => setIsResultModalOpened(false)}
+        />
+      )}
+      <StyledTitle>{props.title}</StyledTitle>
       <StyledSubTitleContainer>
         <StyledCountInfoContainer>
-          <FaUserAlt size={20} />
-          {/* <FaUsers size={20} /> */}
+          <TbUsers size={20} />
           <StyledSpan>00 명</StyledSpan>
-          <FaThumbsUp size={20} />
-          {/* <FaRegThumbsUp size={20} /> */}
+          <TbThumbUp size={20} />
           <StyledSpan>000 회</StyledSpan>
         </StyledCountInfoContainer>
         <StyledButtonContainer>
-          <GreenBtn label="투표하기" type={0} isDisable={false} onClick={() => setIsOpened(true)} />
+          <GreenBtn
+            label="투표하기"
+            type={0}
+            isDisable={false}
+            onClick={() => setIsVoteModalOpened(true)}
+          />
           <LikeBtn />
         </StyledButtonContainer>
       </StyledSubTitleContainer>
       <StyledHr />
-      <StyledDetail>우리 우파루파 사료 얼마나 맛있게 먹는지 보러 올 사람?</StyledDetail>
+      <StyledDetail>
+        {props.detail}
+        <GreenBtn
+          label="투표결과"
+          type={0}
+          isDisable={false}
+          onClick={() => setIsResultModalOpened(true)}
+        />
+      </StyledDetail>
     </StyledContainer>
   );
 };

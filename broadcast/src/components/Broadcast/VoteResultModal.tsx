@@ -1,23 +1,17 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import CardNotLabel from "../cards/CardNotLabel";
-import styled from "styled-components";
 
 import { CardNotLabel } from "../common/card/index";
-
 
 interface Iprops {
   feedName: string;
   imgSrc: string;
+  closeModal: () => void;
 }
 
 const VoteResultModal = function (props: Iprops) {
-  const closeModal = function () {
-    // 모달 닫는 로직
-  };
-
   return (
-    <StyledModal onClick={closeModal}>
+    <StyledModal onClick={props.closeModal}>
       <StyledBlackDiv />
       <SytledIframe src="https://embed.lottiefiles.com/animation/32585" />
       <StyledContainer>
@@ -51,7 +45,7 @@ const StyledBlackDiv = styled.div`
   left: 0;
   background-color: black;
   opacity: 0.7;
-  z-index: 97;
+  z-index: 1;
   animation: ${boxFade} 2s linear;
 `;
 
