@@ -1,19 +1,14 @@
 import React from "react";
-import { useState } from "react";
 import styled from "styled-components";
 
 interface IProps {
   title: string;
   imgSrc: string;
-  selectedFeed: string | null;
-  selectFeed: (title: string) => void;
 }
 
-const CardVote = function (props: IProps) {
-  const isSelected = props.selectedFeed === props.title ? true : false;
-
+const CardOverlayLabel = function (props: IProps) {
   return (
-    <StyledContainer isSelected={isSelected} onClick={() => props.selectFeed(props.title)}>
+    <StyledContainer>
       <StyledCardImg src={props.imgSrc} alt="" />
       <StyledCardTitle>{props.title}</StyledCardTitle>
       <StyledCardInnerShadow />
@@ -21,9 +16,9 @@ const CardVote = function (props: IProps) {
   );
 };
 
-export default CardVote;
+export default CardOverlayLabel;
 
-const StyledContainer = styled.li<{ isSelected: boolean }>`
+const StyledContainer = styled.div`
   width: 240px;
   height: 160px;
   display: flex;
@@ -32,11 +27,6 @@ const StyledContainer = styled.li<{ isSelected: boolean }>`
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
-  // light & black: mango yellow 600
-  ${(props) =>
-    props.isSelected
-      ? `border: 8px solid ${props.theme.colors.brandColors.mangoYellow["600"]}`
-      : ""};
   ${(props) => props.theme.styles.card}
   cursor: pointer;
 `;

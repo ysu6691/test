@@ -14,7 +14,7 @@ function BroadcastVideo(props: IProps) {
   const OV = useMemo(() => new OpenVidu(), []);
   const APPLICATION_SERVER_URL = "http://localhost:5000/";
 
-  const mySessionId = "1234";
+  const mySessionId = "123";
   const myUserName = "myUserName";
 
   // useEffect(() => {

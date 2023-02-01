@@ -151,7 +151,9 @@ const StyledContainer = styled.div<{
       ? "position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border-radius: 0;"
       : ""}
   ${(props) =>
-    props.isMaximized && !props.isBtnShown && !props.isVoteModalOpened ? "cursor: none;" : ""}
+    props.isMaximized && !props.isBtnShown && !props.isVoteModalOpened
+      ? "cursor: none;"
+      : ""}
 `;
 
 const StyledHeader = styled.div<{ isBtnShown: boolean }>`
@@ -173,7 +175,11 @@ const StyledTopShadow = styled.div`
   left: 0;
   width: 100vw;
   height: 200px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
 `;
 
 const StyledTitle = styled.span`
@@ -185,7 +191,10 @@ const StyledTitle = styled.span`
   color: ${(props) => props.theme.colors.brandColors.basaltGray["50"]};
 `;
 
-const StyledReactionContainer = styled.div<{ isBtnShown: boolean; isMaximized: boolean }>`
+const StyledReactionContainer = styled.div<{
+  isBtnShown: boolean;
+  isMaximized: boolean;
+}>`
   position: absolute;
   bottom: 24px;
   left: ${(props) => (props.isBtnShown ? "24px" : "-60px")};

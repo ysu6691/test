@@ -15,7 +15,8 @@ interface IProps {
 
 const BroadcastContent = function (props: IProps) {
   const [isVoteModalOpened, setIsVoteModalOpened] = useState<boolean>(false);
-  const [isResultModalOpened, setIsResultModalOpened] = useState<boolean>(false);
+  const [isResultModalOpened, setIsResultModalOpened] =
+    useState<boolean>(false);
 
   return (
     <StyledContainer>

@@ -85,7 +85,10 @@ const Broadcast = function () {
         </StyledLeftSection>
         {!isMaximized && (
           <StyledRightSection>
-            <ProfileStore storeName="우파파 움파파" imgSrc="https://picsum.photos/200/300" />
+            <ProfileStore
+              storeName="우파파 움파파"
+              imgSrc="https://picsum.photos/200/300"
+            />
             {animalProfileList}
             <BroadcastRecommendations />
           </StyledRightSection>
