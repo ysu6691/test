@@ -5,7 +5,29 @@ import styled from "styled-components";
 
 interface IProps {
   selectedFeed: string | null;
+  isLiked: boolean;
   onClick: () => void;
+  changeNumberOfViewers: (viewers: number) => void;
+  changeNumberOfLikes: (likes: number) => void;
+}
+
+function useInterval(callback: () => void, delay: number) {
+  const savedCallback = useRef(callback); // 최근에 들어온 callback을 저장할 ref를 하나 만든다.
+
+  useEffect(() => {
+    savedCallback.current = callback; // callback이 바뀔 때마다 ref를 업데이트 해준다.
+  }, [callback]);
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current(); // tick이 실행되면 callback 함수를 실행시킨다.
+    }
+    if (delay !== null) {
+      // 만약 delay가 null이 아니라면
+      const id = setInterval(tick, delay); // delay에 맞추어 interval을 새로 실행시킨다.
+      return () => clearInterval(id); // unmount될 때 clearInterval을 해준다.
+    }
+  }, [delay]); // delay가 바뀔 때마다 새로 실행된다.
 }
 
 function BroadcastVideo(props: IProps) {
@@ -15,7 +37,7 @@ function BroadcastVideo(props: IProps) {
   const OV = useMemo(() => new OpenVidu(), []);
   const APPLICATION_SERVER_URL = "http://localhost:5000/";
 
-  const mySessionId = "1234";
+  const mySessionId = "123";
   const myUserName = "myUserName1";
 
   // useEffect(() => {
@@ -40,6 +62,11 @@ function BroadcastVideo(props: IProps) {
       }
       if (event.type === "signal:badge") {
         console.log("뱃지 받았다");
+      }
+      if (event.type === "signal:numberOfLikes") {
+        if (event.data !== undefined) {
+          props.changeNumberOfLikes(Number(event.data));
+        }
       }
     });
     setSession(newSession);
@@ -68,6 +95,7 @@ function BroadcastVideo(props: IProps) {
         session.connect(token, { clientData: myUserName });
       });
     }
+    return () => session?.disconnect();
   }, [session]);
 
   // 세션 입장
@@ -90,6 +118,32 @@ function BroadcastVideo(props: IProps) {
       type: "vote",
     });
   }, [props.selectedFeed, ownerConnection]);
+
+  useEffect(() => {
+    if (ownerConnection === undefined) {
+      return;
+    }
+    console.log("asdfadsfdsafdsa");
+    if (props.isLiked) {
+      session?.signal({
+        data: "",
+        to: [ownerConnection],
+        type: "dislike",
+      });
+    } else {
+      session?.signal({
+        data: "",
+        to: [ownerConnection],
+        type: "like",
+      });
+    }
+  }, [props.isLiked, ownerConnection]);
+
+  useInterval(() => {
+    if (session !== undefined) {
+      props.changeNumberOfViewers(session?.remoteConnections.size);
+    }
+  }, 4000);
 
   return (
     <StyledContainer onClick={props.onClick}>

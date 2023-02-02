@@ -13,6 +13,8 @@ interface IProps {
   vote: (selectedFeed: string) => void;
   isVoted: boolean;
   like: () => void;
+  viewers: number;
+  numberOfLikes: number;
 }
 
 const BroadcastContent = function (props: IProps) {
@@ -39,9 +41,9 @@ const BroadcastContent = function (props: IProps) {
       <StyledSubTitleContainer>
         <StyledCountInfoContainer>
           <TbUsers size={20} />
-          <StyledSpan>00 명</StyledSpan>
+          <StyledSpan>{props.viewers} 명</StyledSpan>
           <TbThumbUp size={20} />
-          <StyledSpan>000 회</StyledSpan>
+          <StyledSpan>{props.numberOfLikes} 회</StyledSpan>
         </StyledCountInfoContainer>
         <StyledButtonContainer>
           {props.isVoted ? (

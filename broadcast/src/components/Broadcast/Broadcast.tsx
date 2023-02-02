@@ -56,6 +56,9 @@ const Broadcast = function () {
   const [isMaximized, setIsMaximized] = useState<boolean>(false);
   const [selectedFeed, setSelectedFeed] = useState<string | null>(null);
   const [isVoted, setIsVoted] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [viewers, setViewers] = useState<number>(0);
+  const [numberOfLikes, setNumberOfLikes] = useState<number>(0);
 
   return (
     <StyledFragment>
@@ -72,6 +75,9 @@ const Broadcast = function () {
               setIsVoted(true);
             }}
             isVoted={isVoted}
+            isLiked={isLiked}
+            changeNumberOfViewers={(viewers) => setViewers(viewers)}
+            changeNumberOfLikes={(likes) => setNumberOfLikes(likes)}
           />
           {!isMaximized && (
             <BroadcastContent
@@ -83,7 +89,9 @@ const Broadcast = function () {
                 setIsVoted(true);
               }}
               isVoted={isVoted}
-              like={like}
+              like={() => setIsLiked(!isLiked)}
+              viewers={viewers}
+              numberOfLikes={numberOfLikes}
             />
           )}
         </StyledLeftSection>

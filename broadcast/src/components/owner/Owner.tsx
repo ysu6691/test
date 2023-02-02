@@ -2,9 +2,29 @@ import React, { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { OpenVidu, Session, Subscriber, Device, Publisher } from "openvidu-browser";
 import axios from "axios";
 
+function useInterval(callback: () => void, delay: number) {
+  const savedCallback = useRef(callback); // 최근에 들어온 callback을 저장할 ref를 하나 만든다.
+
+  useEffect(() => {
+    savedCallback.current = callback; // callback이 바뀔 때마다 ref를 업데이트 해준다.
+  }, [callback]);
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current(); // tick이 실행되면 callback 함수를 실행시킨다.
+    }
+    if (delay !== null) {
+      // 만약 delay가 null이 아니라면
+      const id = setInterval(tick, delay); // delay에 맞추어 interval을 새로 실행시킨다.
+      return () => clearInterval(id); // unmount될 때 clearInterval을 해준다.
+    }
+  }, [delay]); // delay가 바뀔 때마다 새로 실행된다.
+}
+
 const Owner = function () {
   const [session, setSession] = useState<undefined | Session>(undefined); // 세션
   const [publisher, setPublisher] = useState<Publisher | undefined>(undefined); // 로컬 스트림
+  const [numberOfLikes, setNumberOfLikes] = useState<number>(0);
   // const [mainStreamManager, setMainStreamManager] = useState<
   //   Publisher | undefined
   // >(undefined); // 메인 스트림
@@ -20,7 +40,6 @@ const Owner = function () {
   useEffect(() => {
     const newSession = OV.initSession();
     newSession.on("connectionCreated", (event) => {
-      console.log(newSession.remoteConnections.size);
       newSession.signal({
         data: mySessionId,
         to: [event.connection],
@@ -71,7 +90,6 @@ const Owner = function () {
     myUserName = myUserNameInputRef.current!.value;
     getToken()
       .then((token: string) => {
-        console.log(session);
         session?.connect(token, { clientData: myUserName }).then(async () => {
           const newPublisher = await OV.initPublisherAsync(undefined, {
             audioSource: undefined, // The source of audio. If undefined default microphone
@@ -164,6 +182,22 @@ const Owner = function () {
   // console.log("p:", publisher);
   // console.log("m: ", mainStreamManager);
   // console.log("c: ", currentVideoDevice);
+
+  useInterval(() => {
+    if (session !== undefined) {
+      session.on("signal:like", () => {
+        setNumberOfLikes(numberOfLikes + 1);
+      });
+      session.on("signal:dislike", () => {
+        setNumberOfLikes(numberOfLikes - 1);
+      });
+      session.signal({
+        data: numberOfLikes.toString(),
+        to: [],
+        type: "numberOfLikes",
+      });
+    }
+  }, 4000);
 
   return (
     <div>
