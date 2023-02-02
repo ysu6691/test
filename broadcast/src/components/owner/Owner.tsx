@@ -112,8 +112,23 @@ const Owner = function () {
   };
 
   // 세션 나가기
-  const leaveSession = function () {
+  const leaveSession = function (sessionId: string) {
+    mySessionId = mySessionIdInputRef.current!.value;
     session?.disconnect();
+    disConnection(mySessionId);
+  };
+
+  // 세션 나가는거 back에 알려주기
+  const disConnection = async function (sessionId: string) {
+    const response = await axios({
+      method: "post",
+      url: APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/disconnect",
+      data: JSON.stringify({
+        nickname: myUserName,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+    console.log(response.data);
   };
 
   // 새로운 커넥션 생길 때마다 사업자 정보 보내기
@@ -158,7 +173,7 @@ const Owner = function () {
         <input type="text" placeholder="닉네임" ref={myUserNameInputRef} />
         <button>입장</button>
       </form>
-      <button onClick={leaveSession}>퇴장</button>
+      <button onClick={() => leaveSession(mySessionId)}>퇴장</button>
       <form onSubmit={sendBadge}>
         <button>뱃지 뿌리기</button>
       </form>

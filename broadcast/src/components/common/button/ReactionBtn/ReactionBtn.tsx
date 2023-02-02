@@ -6,13 +6,14 @@ interface Iprops {
   label: string; // 리액션 버튼의 라벨
   icon: React.ElementType; // 리액션 버튼의 아이콘
   color: string; // 리액션 버튼의 색깔
+  onClick: () => void;
 }
 
 function ReactionBtn(props: Iprops) {
   const Icon = props.icon; // prop된 아이콘
 
   return (
-    <StyledReactionBtn background={props.color}>
+    <StyledReactionBtn background={props.color} onClick={props.onClick}>
       <Icon size={30} strokeWidth={2}></Icon>
       <StyledBtnLabel>{props.label}</StyledBtnLabel>
     </StyledReactionBtn>

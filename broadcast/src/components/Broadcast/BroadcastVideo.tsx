@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 interface IProps {
   selectedFeed: string | null;
+  onClick: () => void;
 }
 
 function BroadcastVideo(props: IProps) {
@@ -15,7 +16,7 @@ function BroadcastVideo(props: IProps) {
   const APPLICATION_SERVER_URL = "http://localhost:5000/";
 
   const mySessionId = "1234";
-  const myUserName = "myUserName";
+  const myUserName = "myUserName1";
 
   // useEffect(() => {
   //   setSession(OV.initSession());
@@ -91,7 +92,7 @@ function BroadcastVideo(props: IProps) {
   }, [props.selectedFeed, ownerConnection]);
 
   return (
-    <StyledContainer>
+    <StyledContainer onClick={props.onClick}>
       <StyledVideo autoPlay={true} ref={streamRef} />
     </StyledContainer>
   );

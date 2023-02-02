@@ -11,6 +11,8 @@ interface IProps {
   detail: string;
   feedList: { id: number; feedName: string; imgSrc: string }[];
   vote: (selectedFeed: string) => void;
+  isVoted: boolean;
+  like: () => void;
 }
 
 const BroadcastContent = function (props: IProps) {
@@ -42,13 +44,17 @@ const BroadcastContent = function (props: IProps) {
           <StyledSpan>000 회</StyledSpan>
         </StyledCountInfoContainer>
         <StyledButtonContainer>
-          <GreenBtn
-            label="투표하기"
-            type={0}
-            isDisable={false}
-            onClick={() => setIsVoteModalOpened(true)}
-          />
-          <LikeBtn />
+          {props.isVoted ? (
+            <GreenBtn label="투표하기" type={0} isDisable={true} />
+          ) : (
+            <GreenBtn
+              label="투표하기"
+              type={0}
+              isDisable={false}
+              onClick={() => setIsVoteModalOpened(true)}
+            />
+          )}
+          <LikeBtn onClick={props.like} />
         </StyledButtonContainer>
       </StyledSubTitleContainer>
       <StyledHr />

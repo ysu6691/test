@@ -3,7 +3,11 @@ import styled from "styled-components";
 
 import { TbThumbUp } from "react-icons/tb"; // 엄지 아이콘 import
 
-function LikeBtn() {
+interface IProps {
+  onClick: () => void;
+}
+
+function LikeBtn(props: IProps) {
   // 클릭할 경우 실행될 엄지 아이콘 애니메이션 함수
   const thumbUpIconAnimate = function () {
     const thumbUpIcon: Element | null = document.querySelector(".thumb-up-icon"); // 엄지 아이콘
@@ -30,6 +34,7 @@ function LikeBtn() {
       onClick={() => {
         // 클릭시 애니메이션 실행
         thumbUpIconAnimate();
+        props.onClick();
       }}
     >
       <ThumbUpIcon className="thumb-up-icon">

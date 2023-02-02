@@ -8,7 +8,6 @@ interface IProps {
 }
 
 const Room = function (props: IProps) {
-  console.log(props.role);
   return <div>{props.role === "owner" ? <Owner /> : <Broadcast />}</div>;
 };
 

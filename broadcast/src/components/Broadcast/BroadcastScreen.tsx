@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import {
   TbHandStop,
@@ -28,6 +28,11 @@ const BroadcastScreen = function (props: IProps) {
   const [isBtnShown, setIsBtnShown] = useState<boolean>(false);
   const [isVoteModalOpened, setIsVoteModalOpened] = useState<boolean>(false);
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
+  const [waitingReaction, setWaitingReaction] = useState<string | null>(null);
+
+  const [isReactionPlaying, setIsReactionPlaying] = useState<boolean>(false);
+  const [clientX, setClientX] = useState<number | null>(null);
+  const [clientY, setClientY] = useState<number | null>(null);
 
   useEffect(() => {
     if (isMouseOver) {
@@ -47,14 +52,65 @@ const BroadcastScreen = function (props: IProps) {
     }
   };
 
+  useEffect(() => {
+    const ChangeMousePosition = function (event: MouseEvent) {
+      setClientX(event.offsetX);
+      setClientY(event.offsetY);
+    };
+
+    document.addEventListener("click", ChangeMousePosition);
+    return () => {
+      document.removeEventListener("click", ChangeMousePosition);
+    };
+  }, []);
+
+  const doReaction = function () {
+    if (waitingReaction === null) {
+      return;
+    }
+    setIsReactionPlaying(true);
+  };
+
+  useEffect(() => {
+    if (isReactionPlaying === false) {
+      return;
+    }
+    setTimeout(() => {
+      setIsReactionPlaying(false);
+      setWaitingReaction(null);
+    }, 3000);
+  }, [isReactionPlaying]);
+
   return (
     <StyledContainer
       onMouseMove={showHeader}
       isMaximized={props.isMaximized}
       isBtnShown={isBtnShown}
       isVoteModalOpened={isVoteModalOpened}
+      waitingReaction={waitingReaction}
     >
-      <BroadcastVideo selectedFeed={props.selectedFeed} />
+      {isReactionPlaying && waitingReaction === "쓰다듬기" && (
+        <SytledIframe
+          src="https://embed.lottiefiles.com/animation/97180"
+          clientX={clientX}
+          clientY={clientY}
+        />
+      )}
+      {isReactionPlaying && waitingReaction === "예뻐하기" && (
+        <SytledIframe
+          src="https://embed.lottiefiles.com/animation/42243"
+          clientX={clientX}
+          clientY={clientY}
+        />
+      )}
+      {isReactionPlaying && waitingReaction === "응원하기" && (
+        <SytledIframe
+          src="https://embed.lottiefiles.com/animation/35139"
+          clientX={clientX}
+          clientY={clientY}
+        />
+      )}
+      <BroadcastVideo selectedFeed={props.selectedFeed} onClick={doReaction} />
       {props.isMaximized && (
         <StyledHeader isBtnShown={isBtnShown}>
           <StyledTopShadow />
@@ -67,16 +123,33 @@ const BroadcastScreen = function (props: IProps) {
           </StyledCountInfoContainer>
         </StyledHeader>
       )}
-      <StyledReactionContainer
-        onMouseOver={() => setIsMouseOver(true)}
-        onMouseOut={() => setIsMouseOver(false)}
-        isBtnShown={isBtnShown}
-        isMaximized={props.isMaximized}
-      >
-        <ReactionBtn label="쓰다듬기" icon={TbHandStop} color="#F1A604" />
-        <ReactionBtn label="예뻐하기" icon={TbHeart} color="#ff38a4" />
-        <ReactionBtn label="응원하기" icon={TbFlame} color="#f33041" />
-      </StyledReactionContainer>
+      {!isReactionPlaying && (
+        <StyledReactionContainer
+          onMouseOver={() => setIsMouseOver(true)}
+          onMouseOut={() => setIsMouseOver(false)}
+          isBtnShown={isBtnShown}
+          isMaximized={props.isMaximized}
+        >
+          <ReactionBtn
+            label="쓰다듬기"
+            icon={TbHandStop}
+            color="#F1A604"
+            onClick={() => setWaitingReaction("쓰다듬기")}
+          />
+          <ReactionBtn
+            label="예뻐하기"
+            icon={TbHeart}
+            color="#ff38a4"
+            onClick={() => setWaitingReaction("예뻐하기")}
+          />
+          <ReactionBtn
+            label="응원하기"
+            icon={TbFlame}
+            color="#f33041"
+            onClick={() => setWaitingReaction("응원하기")}
+          />
+        </StyledReactionContainer>
+      )}
       {props.isMaximized && (
         <StyledBtnContainer
           onMouseOver={() => setIsMouseOver(true)}
@@ -140,19 +213,26 @@ const StyledContainer = styled.div<{
   isMaximized: boolean;
   isBtnShown: boolean;
   isVoteModalOpened: boolean;
+  waitingReaction: string | null;
 }>`
   width: 100%;
   aspect-ratio: 1654 / 1000;
   border-radius: 32px;
   filter: drop-shadow(2px 2px 8px rgba(67, 67, 67, 0.2));
   overflow: hidden;
+  position: relative;
   ${(props) =>
     props.isMaximized
       ? "position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border-radius: 0;"
       : ""}
   ${(props) =>
     props.isMaximized && !props.isBtnShown && !props.isVoteModalOpened ? "cursor: none;" : ""}
+    ${(props) => (props.waitingReaction !== null ? `cursor: pointer` : "")}
 `;
+// ${(props) =>
+// props.waitingReaction !== null
+//   ? `cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLWZsYW1lIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iI2YzMzA0MSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4NCiAgPHBhdGggc3Ryb2tlPSJub25lIiBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+DQogIDxwYXRoIGQ9Ik0xMiAxMmMyIC0yLjk2IDAgLTcgLTEgLThjMCAzLjAzOCAtMS43NzMgNC43NDEgLTMgNmMtMS4yMjYgMS4yNiAtMiAzLjI0IC0yIDVhNiA2IDAgMSAwIDEyIDBjMCAtMS41MzIgLTEuMDU2IC0zLjk0IC0yIC01Yy0xLjc4NiAzIC0yLjc5MSAzIC00IDJ6IiAvPg0KPC9zdmc+DQoNCg0K), pointer`
+//   : ""}
 
 const StyledHeader = styled.div<{ isBtnShown: boolean }>`
   opacity: ${(props) => (props.isBtnShown ? " 1" : "0")};
@@ -241,4 +321,18 @@ const StyledCountInfoContainer = styled.div`
 
 const StyledSpan = styled.span`
   font: ${(props) => props.theme.fonts.paragraph};
+`;
+
+const SytledIframe = styled.iframe<{
+  clientX: number | null;
+  clientY: number | null;
+}>`
+  position: absolute;
+  top: ${(props) => `${props.clientY}px`};
+  left: ${(props) => `${props.clientX}px`};
+  transform: translate(-50%, -50%);
+  width: 30%;
+  height: 30%;
+  pointer-events: none;
+  z-index: 4;
 `;

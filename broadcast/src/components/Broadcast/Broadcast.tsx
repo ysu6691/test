@@ -5,6 +5,7 @@ import { ProfileStore, ProfileLarge } from "../common/profile/index";
 import BroadcastContent from "./BroadcastContent";
 import BroadcastScreen from "./BroadcastScreen";
 import BroadcastRecommendations from "./BroadcastRecommendations";
+import Grid from "@mui/material/Grid";
 
 // 임시 방송 정보
 const tmpBroadcastInfo = {
@@ -32,13 +33,14 @@ const tmpAnimalList = [
 
 const animalProfileList = tmpAnimalList.map((animal) => {
   return (
-    <ProfileLarge
-      key={animal.id}
-      animalName={animal.animalName}
-      gender={animal.gender}
-      classification={animal.classification}
-      imgSrc={animal.imgSrc}
-    />
+    <Grid key={animal.id} item xs={12} sm={6} md={12}>
+      <ProfileLarge
+        animalName={animal.animalName}
+        gender={animal.gender}
+        classification={animal.classification}
+        imgSrc={animal.imgSrc}
+      />
+    </Grid>
   );
 });
 
@@ -80,13 +82,17 @@ const Broadcast = function () {
                 setSelectedFeed(selectedFeed);
                 setIsVoted(true);
               }}
+              isVoted={isVoted}
+              like={like}
             />
           )}
         </StyledLeftSection>
         {!isMaximized && (
           <StyledRightSection>
             <ProfileStore storeName="우파파 움파파" imgSrc="https://picsum.photos/200/300" />
-            {animalProfileList}
+            <Grid container spacing={4}>
+              {animalProfileList}
+            </Grid>
             <BroadcastRecommendations />
           </StyledRightSection>
         )}
@@ -107,18 +113,37 @@ const StyledContainer = styled.div`
   height: 100%;
   display: flex;
   gap: 32px;
+  min-width: 1100px;
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 0 2vw;
+    min-width: 465px;
+  }
 `;
 
 const StyledLeftSection = styled.div`
-  width: 74%;
+  width: 78%;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 600px) {
+  }
 `;
 
 const StyledRightSection = styled.div`
-  width: 26%;
+  width: 22%;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    flex-wrap 
+  }
+  @media screen and (max-width: 600px) {
+  }
 `;
