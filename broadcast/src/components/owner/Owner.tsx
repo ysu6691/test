@@ -32,8 +32,11 @@ const Owner = function () {
   //   Device | undefined
   // >(undefined); // 현재 비디오 출력중인 기기
 
+  // http://localhost:5000/
+  // http://43.200.173.117:5000/
+  // http://heesootory.store/test/
   const OV = useMemo(() => new OpenVidu(), []);
-  const APPLICATION_SERVER_URL = "http://localhost:5000/";
+  const APPLICATION_SERVER_URL = "https://heesootory.store/test/";
   let mySessionId: string;
   let myUserName: string;
 
@@ -58,8 +61,11 @@ const Owner = function () {
       method: "post",
       url: APPLICATION_SERVER_URL + "api/sessions",
       data: JSON.stringify({ customSessionId: sessionId }),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+    console.log(response);
     return response.data;
   };
 
@@ -69,7 +75,9 @@ const Owner = function () {
       method: "post",
       url: APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
       data: JSON.stringify({}),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     return response.data;
   };

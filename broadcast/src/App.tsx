@@ -14,11 +14,22 @@ import Owner from "./components/owner/Owner";
 import BroadcastVideo from "./components/broadcast/BroadcastVideo";
 import Room from "./components/room/Room";
 
+import axios from "axios";
+
 function App() {
   const [themeMode, toggleTheme] = useTheme();
   const theme: Itheme = themeMode === "light" ? lightTheme : darkTheme;
 
   const [role, setRole] = useState<string>("owner");
+
+  const sendTestAxios = function () {
+    axios({
+      method: "get",
+      url: "https://heesootory.store/test",
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -31,6 +42,7 @@ function App() {
         <Route path="/room" element={<Room role={role} />}></Route>
       </Routes>
       <button onClick={() => setRole("p")}>참가자 역할로 변경</button>
+      <button onClick={sendTestAxios}>요청 가나?</button>
     </ThemeProvider>
   );
 }
