@@ -37,7 +37,7 @@ function BroadcastVideo(props: IProps) {
   const OV = useMemo(() => new OpenVidu(), []);
   const APPLICATION_SERVER_URL = "http://localhost:5000/";
 
-  const mySessionId = "123";
+  const mySessionId = "1234";
   const myUserName = "myUserName1";
 
   // useEffect(() => {
@@ -80,6 +80,7 @@ function BroadcastVideo(props: IProps) {
       data: JSON.stringify({}),
       headers: { "Content-Type": "application/json" },
     });
+    console.log(response);
     return response.data;
   };
 
